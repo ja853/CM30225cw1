@@ -1,3 +1,6 @@
+// gcc -Wall -Wextra -Wconversion cw1_main.c -o comp_cw1
+// ./comp_cw1 gridSize
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -7,9 +10,12 @@ void outputGrid(int, float[]);
 void outputNonSquareGrid(int, int, float[]);
 
 
-int main(void){
+int main(int argc, char *argv[]){
+  int gridSize = 4;
+  if (argc == 2){
+    gridSize = (int)strtol(argv[1], NULL,10);
+  }
 
-  int gridSize = 10; //// grab this value from cmd args
   float grid[gridSize][gridSize];
 
   // create grid of size gridSize
@@ -42,9 +48,9 @@ int main(void){
 
 void averageEntireGrid(int gridSize, float g[]) {
   //float tempGrid[gridSize][gridSize];
-  float test = 1.0;
-  float *newGrid = malloc((int)(sizeof(test))*gridSize*gridSize);
-  memcpy(newGrid, g, (int)sizeof(test)*gridSize*gridSize);
+//  float test = 1.0;
+//  float *newGrid = malloc((int)(sizeof(test))*gridSize*gridSize);
+//  memcpy(newGrid, g, (int)sizeof(test)*gridSize*gridSize);
   for (int y = 1; y < gridSize-1; y++){
     for (int x = 1; x < gridSize-1; x++){
 //      printf("up %f | l %f | r %f | d %f \n", g[x + (y-1)*gridSize], g[x-1 + (y)*gridSize], g[x+1 + y*gridSize], g[x + (y+1)*gridSize]);
