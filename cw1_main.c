@@ -1,9 +1,12 @@
 // gcc -Wall -Wextra -Wconversion cw1_main.c -o comp_cw1
 // ./comp_cw1 gridSize
+// gcc -Wall -Wextra -Wconversion -lpthread cw1_main.c -o comp_cw1
 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <pthread.h>
+
 
 void copyDataToRowBelow(int, double[]);
 void averageEntireGrid(int, double[]);
@@ -14,6 +17,8 @@ void avgNonSquareGrid(int, double[], double[]);
 void avgSomeThreeRows(int, int, double[], double[]);
 void avgSomeThreeRowsInPlace(int, int, double[]);
 void outputGridWithoutCopies(int, double[]);
+
+void *toDoForThread(char*);
 
 
 int main(int argc, char *argv[]){
@@ -65,8 +70,30 @@ int main(int argc, char *argv[]){
 
   printf("FINAL\n");
   outputGridWithoutCopies(gridSize, *grid);
+
+
+  pthread_t t1, t2;
+  char *message1 = "thread1";
+  char *message2 = "thread2";
+  int tRet1, tRet2;
+
+  tRet1 = pthread_create(&t1, NULL, toDoForThread, (char*) message1);
+  tRet2 = pthread_create(&t2, NULL, toDoForThread, (char*) message2);
+
+  pthread_join(t1, NULL);
+  pthread_join(t2, NULL);
+
+  printf("t1: %d, t1: %d", tRet1, tRet2);
+
+
   return 0;
 
+}
+
+void *toDoForThread(char *ptr) {
+  char *message;
+  message = (char *) ptr;
+  printf("%s \n", message);
 }
 
 void copyDataToRowBelow(int s, double grid[]) {
